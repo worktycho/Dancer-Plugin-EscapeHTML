@@ -8,6 +8,7 @@ use Dancer qw(:syntax);
 
 use HTML::Entities;
 use Scalar::Util qw(blessed reftype);
+use Clone qw(clone);
 
 our $VERSION = '0.22';
 
@@ -126,7 +127,19 @@ hook before_template_render => sub {
 
     # flush seen cache
     %seen = ();
-
+	
+	#clone referenced values
+	$tokens->{settings}       = clone($tokens->{settings});
+	#clone request params and vars if the request exists 
+	#as they are only added in that case
+	if (exists($tokens->{request})) {
+		$tokens->{params}         = clone($tokens->{params});
+		$tokens->{vars}           = clone($tokens->{vars});
+	}
+	#check if session exists to deal with when the sessions engine is off
+	$tokens->{session} = clone($tokens->{session}) if exists $tokens->{session};
+	
+	
     $tokens = _encode($tokens);
 };
 
