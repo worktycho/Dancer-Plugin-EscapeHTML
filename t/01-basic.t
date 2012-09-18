@@ -7,7 +7,7 @@ use t::lib::TestApp;
 use Dancer ':syntax';
 use Dancer::Test;
 
-plan tests => 6;
+plan tests => 8;
 
 # First, check that the explicitly-escaped HTML got escaped, but the one passed
 # as-is was unmolested:
@@ -42,5 +42,11 @@ config->{plugins}{EscapeHTML}{traverse_objects}++;
 
 response_content_is [ GET => '/object' ], "&lt;p&gt;In an object&lt;/p&gt;\n",
     "Objects are escaped with traverse_objects set";
+
+
+#autoescaping is on so that the following pass through the hook
+response_content_is [ GET => '/coderef' ] , "&lt;p&gt;Foo&lt;/p&gt;\n" , "dancer does not crash when passed coderefs";
+
+response_content_is [ GET => '/settings' ] , "<p>Bar</p>" , "settings have not been affected by rendering"; 
 
 
