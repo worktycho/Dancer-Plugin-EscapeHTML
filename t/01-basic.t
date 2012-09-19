@@ -45,7 +45,7 @@ response_content_is [ GET => '/object' ], "&lt;p&gt;In an object&lt;/p&gt;\n",
 
 
 #autoescaping is on so that the following pass through the hook
-response_content_is [ GET => '/coderef' ] , "&lt;p&gt;Foo&lt;/p&gt;\n" , "dancer does not crash when passed coderefs";
+response_content_is [ GET => '/coderef' ] , "Bar\n" , "dancer does not crash when passed coderefs";
 
 response_content_is [ GET => '/settings' ] , "<p>Bar</p>" , "settings have not been affected by rendering"; 
 

@@ -15,6 +15,7 @@ WriteMakefile(
         'Dancer'     => 0,
         'Test::More' => 0,
         'HTML::Entities' => 0,
+        'Clone' => 0
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Dancer-Plugin-EscapeHTML-*' },

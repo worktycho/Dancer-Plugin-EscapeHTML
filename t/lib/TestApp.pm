@@ -2,12 +2,12 @@ package t::lib::TestApp;
 
 use Dancer;
 use Dancer::Plugin::EscapeHTML;
-use Data::Dumper;
 use Foo;
 
 setting 'template' => 'Simple';
 setting 'show_errors' => 1;
-setting 'Foo' => "<p>Bar</p>";
+setting 'Foosetting' => "<p>Bar</p>";
+setting 'Foocoderef' => sub { return "bar" };
 
 get '/straight' => sub {
     return template 'index', { foo => "<p>Foo</p>" };
@@ -27,12 +27,11 @@ get '/object' => sub {
 };
 
 get '/coderef' => sub {
-    my $coderef = sub { return 'Foo' };
-    return template 'index', { foo => "<p>Foo</p>" , coderef => $coderef };
+    return template 'coderef', {};
 };
 
 get '/settings' => sub {
-    return Dancer::Config->settings->{Foo};
+    return Dancer::Config->settings->{Foosetting};
 };
 
 1;
